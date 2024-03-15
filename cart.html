@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CART</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Cinzel:wght@500;800&family=Marcellus&family=Philosopher:ital@1&family=Roboto:wght@100&family=Ysabeau+SC:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      #product {
+        display: flex;
+        flex-wrap: wrap;
+        /* background-color: black; */
+        color: white;
+        margin-left: 25px;
+      }
+
+      .product-card {
+        background-image: linear-gradient(
+          -225deg,
+          #2cd8d5 0%,
+          #c5c1ff 56%,
+          #ffbac3 100%
+        );
+        display: inline-block;
+        width: 300px;
+        color: rgb(7, 7, 7);
+        margin: 30px;
+        border: 1px solid white;
+        border-radius: 10px;
+        padding: 10px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+      }
+      .product-card:hover #hide {
+        display: inline;
+      }
+
+      .product-card img {
+        height: 200px;
+      }
+
+      body {
+        background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+        color: white;
+        font-family: "Black Ops One", cursive;
+        font-family: "Cinzel", serif;
+        font-family: "Ysabeau SC", sans-serif;
+      }
+
+      button {
+        margin-top: 10px;
+        height: 40px;
+        width: 160px;
+        margin-left: 0px;
+        font-size: large;
+        border: 0;
+        outline: 0;
+        border-radius: 10px;
+        color: white;
+        cursor: pointer;
+      }
+
+      span {
+        margin-left: 270px;
+      }
+      #hide {
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="product"></div>
+
+    <script>
+      let divgetting = document.getElementById("product");
+
+      let itemGetting = localStorage.getItem("view_cart");
+      console.log(itemGetting);
+      itemGetting == null
+        ? (itemGetting = [])
+        : (itemGetting = JSON.parse(itemGetting));
+      console.log(itemGetting);
+
+      itemGetting.map((val, ind, array) => {
+        let divcreating = document.createElement("div");
+        divcreating.className = "product-card";
+        let productImg = document.createElement("img");
+        productImg.setAttribute("src", val.thumbnail);
+        productImg.style.width = "100%";
+        divcreating.appendChild(productImg);
+
+        let productId = document.createElement("p");
+        productId.innerText = `ID : ${val.id}`;
+        divcreating.appendChild(productId);
+
+        let productTitle = document.createElement("h2");
+        productTitle.innerText = `${val.title}`;
+        divcreating.appendChild(productTitle);
+
+        let productDescription = document.createElement("p");
+        productDescription.innerText = `Description : ${val.description}`;
+        divcreating.appendChild(productDescription);
+
+        let productPrice = document.createElement("p");
+        productPrice.innerText = `Price : ${val.price}`;
+        divcreating.appendChild(productPrice);
+
+        let productDiscountPercentage = document.createElement("p");
+        productDiscountPercentage.innerText = `DiscountPercentage : ${val.discountPercentage}`;
+        divcreating.appendChild(productDiscountPercentage);
+
+        let productBrand = document.createElement("p");
+        productBrand.innerText = `Brand : ${val.brand}`;
+        divcreating.appendChild(productBrand);
+
+        let buyProduct = document.createElement("button");
+
+        buyProduct.innerText = "BUY HERE📌";
+        buyProduct.style.background = "#FF3E6C";
+        buyProduct.setAttribute("id", "hide");
+        buyProduct.addEventListener("click", () => {
+          window.location.assign("./buy.html");
+        });
+
+        divcreating.appendChild(buyProduct);
+
+        let removeProduct = document.createElement("button");
+        removeProduct.innerText = "Remove⏳";
+        removeProduct.style.background = "#FFBAC3";
+        removeProduct.setAttribute("id", "hide");
+        removeProduct.addEventListener("click", () => {
+          console.log("click");
+          itemGetting.splice(ind, 1);
+          localStorage.setItem("view_cart", JSON.stringify(itemGetting));
+          divgetting.removeChild(divcreating);
+        });
+
+        divcreating.appendChild(removeProduct);
+
+        divgetting.appendChild(divcreating);
+      });
+    </script>
+  </body>
+</html>

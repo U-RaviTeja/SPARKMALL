@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>REGISTRATION</title>
+    <link rel="stylesheet" href="forms.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <style>
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #form {
+        background-color: aliceblue;
+        line-height: 6vh;
+      }
+      button {
+        padding: 5px 15px;
+        border-radius: 10px;
+        background-color: azure;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <form action="" id="form">
+      <div class="forms">
+        <div class="card">
+          <div class="img">
+            <img src="https://img.freepik.com/free-vector/isometric-laptop-with-shopping-cart-keypad_1262-16544.jpg?size=626&ext=jpg&ga=GA1.1.181054532.1699610561&semt=ais" alt="" />
+          </div>
+          <div class="text">
+            <div class="head">
+              registration form
+            </div>
+            <div class="input">
+              <h5 class="block1">
+                USERNAME: <br />
+                <input class="block1" type="text" id="user" />
+              </h5>
+
+              <h5 class="block1">
+                PASSWORD: <br />
+                <input class="block1" type="password" id="pass" />
+              </h5>
+
+              <h5 class="block1">
+                CONFIRM PASSWORD: <br /><input
+                  class="block1"
+                  type="password"
+                  id="cPass"
+                />
+              </h5>
+              <input
+                type="submit"
+                value="SUBMIT"
+                style="
+                  margin-top: 40px;
+                  padding: 5px 10px;
+                  border-radius: 10px;
+                  background-color: azure;
+                  cursor: pointer;
+                "
+                class="sub"
+              />
+              <button id="login" style="margin-left: 130px;">LOGIN</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <script>
+      let form = document.getElementById("form");
+      let login = document.getElementById("login");
+
+      login.addEventListener("click", (e) => {
+        window.location.assign("./login.html");
+      });
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        let username = document.getElementById("user").value;
+        let password = document.getElementById("pass").value;
+        let cPassword = document.getElementById("cPass").value;
+
+        if (username[0] !== username[0].toUpperCase() || username.length < 6) {
+          alert("Incorrect user format");
+          return;
+        }
+        const lengthCondition = password.length >= 8;
+        const patternCondition =
+          /[A-Z]/.test(password) &&
+          /[a-z]/.test(password) &&
+          /\d/.test(password);
+
+        if (!lengthCondition || !patternCondition || password !== cPassword) {
+          alert("Incorrect password");
+          return;
+        }
+
+        let users = JSON.parse(localStorage.getItem("list")) || [];
+        const user = { username, password };
+        let old = users.find((item) => item.username === username);
+        if (old) {
+          alert("User already exists");
+          return;
+        }
+        users.push(user);
+        localStorage.setItem("list", JSON.stringify(users));
+        alert("User registered successfully");
+
+        form.reset();
+      });
+    </script>
+  </body>
+</html>

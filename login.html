@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LOGIN</title>
+    <link rel="stylesheet" href="login.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="main">
+      <div class="card">
+        <h2>login</h2>
+        <form action="" id="form">
+          <h1>user name <br /><input id="user" type="text" /></h1>
+          <h1>password <br /><input id="pass" type="password" /></h1>
+          <h3>forgot password</h3>
+          <input type="submit" value="submit" id="btn" />
+        </form>
+        <h4>or sign up using</h4>
+        <footer>
+          <div class="footer">
+            <i class="ri-facebook-circle-fill"></i>
+            <i class="ri-mail-line"></i>
+            <i class="ri-twitter-line"></i>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <script>
+      let form = document.getElementById("form");
+      let user = document.getElementById("user");
+      let password = document.getElementById("pass");
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        let users = JSON.parse(localStorage.getItem("list"));
+        let usernameToCheck = user.value;
+        let passToCheck = password.value;
+
+        let check = users.find(
+          (item) =>
+            item.username === usernameToCheck && item.password === passToCheck
+        );
+        if (check) {
+          window.location.assign("./task.html");
+        } else {
+          alert("User Not Found");
+        }
+      });
+    </script>
+  </body>
+</html>

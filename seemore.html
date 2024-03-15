@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SEE MORE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Cinzel:wght@500;800&family=Marcellus&family=Philosopher:ital@1&family=Roboto:wght@100&family=Ysabeau+SC:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Black Ops One", cursive;
+        background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+        color: white;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+
+      #product {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+      }
+
+      .product-card {
+        background: linear-gradient(-225deg, #2cd8d5 0%, #c5c1ff 56%, #ffbac3 100%);
+        width: 300px;
+        color: rgb(9, 9, 9);
+        margin: 20px;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .product-card:hover {
+        transform: scale(1.05);
+      }
+
+      .product-card img {
+        width: 100%;
+        height: auto;
+        border-radius: 10px 10px 0 0;
+      }
+
+      .product-details {
+        padding: 10px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .product-details p {
+        margin: 5px 0;
+      }
+
+      .btn-container {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+      }
+
+      button {
+        height: 40px;
+        width: 48%;
+        font-size: large;
+        cursor: pointer;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="product"></div>
+    <script>
+      let api = [];
+      let getitems = JSON.parse(localStorage.getItem("seemore"));
+    
+      console.log(getitems);
+      api.push(getitems);
+      console.log(api);
+      console.log(typeof getitems);
+    
+      let divgetting = document.getElementById("product");
+    
+      api.forEach((val) => {
+        let divcreating = document.createElement("div");
+        divcreating.className = "product-card";
+    
+        let productImg = document.createElement("img");
+        productImg.setAttribute("src", val.thumbnail);
+        divcreating.appendChild(productImg);
+    
+        let productDetails = document.createElement("div");
+        productDetails.className = "product-details";
+    
+        let productId = document.createElement("p");
+        productId.innerText = `ID : ${val.id}`;
+        productDetails.appendChild(productId);
+    
+        let productTitle = document.createElement("h3");
+        productTitle.innerText = `${val.title}`;
+        productDetails.appendChild(productTitle);
+    
+        let productDescription = document.createElement("p");
+        productDescription.innerText = `Description : ${val.description}`;
+        productDetails.appendChild(productDescription);
+    
+        let productPrice = document.createElement("p");
+        productPrice.innerText = `Price : ${val.price}`;
+        productDetails.appendChild(productPrice);
+    
+        let productDiscountPercentage = document.createElement("p");
+        productDiscountPercentage.innerText = `Discount Percentage : ${val.discountPercentage}%`;
+        productDetails.appendChild(productDiscountPercentage);
+    
+        let productBrand = document.createElement("p");
+        productBrand.innerText = `Brand : ${val.brand}`;
+        productDetails.appendChild(productBrand);
+    
+        divcreating.appendChild(productDetails);
+    
+        let btnContainer = document.createElement("div");
+        btnContainer.className = "btn-container";
+    
+        let btnViewMore = document.createElement("button");
+        btnViewMore.innerText = "View more";
+        btnViewMore.addEventListener("click", () => {
+          let productImagesContainer = document.createElement("div");
+    
+          val.images.forEach((imageUrl) => {
+            let productImage = document.createElement("img");
+            productImage.src = imageUrl;
+            productImage.alt = `${val.title} Image`;
+            productImage.style.width = "100%";
+            productImagesContainer.appendChild(productImage);
+          });
+    
+          // Append the container with images to the existing divcreating container
+          divcreating.appendChild(productImagesContainer);
+        });
+    
+        let btnBuy = document.createElement("button");
+        btnBuy.innerText = "BUY HERE📌";
+        btnBuy.style.backgroundColor = "#FFA500";
+        btnBuy.addEventListener("click", () => {
+          window.location.assign("./buy.html");
+          localStorage.setItem("buy", JSON.stringify(val));
+        });
+    
+        btnContainer.appendChild(btnViewMore);
+        btnContainer.appendChild(btnBuy);
+    
+        divcreating.appendChild(btnContainer);
+    
+        divgetting.appendChild(divcreating);
+      });
+    </script>
+    
+  </body>
+</html>
